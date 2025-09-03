@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>KALAH — Woven Heritage</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ivory: '#f7f3ef',
+            beige: '#e8dfd3',
+            gold: '#c59b5b',
+            earthy: '#a67c52',
+            kalahblack: '#0b0b0b'
+          },
+          fontFamily: {
+            serifbrand: ['Playfair Display', 'serif'],
+            sansbrand: ['Inter', 'system-ui', 'sans-serif']
+          },
+          boxShadow: {
+            card: '0 8px 30px rgba(12,12,12,.06)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    body{background:#f7f3ef;color:#0b0b0b;font-family:Inter,system-ui,sans-serif}
+    .font-serif{font-family:'Playfair Display',serif}
+    .btn{padding:.5rem 1rem;border-radius:.5rem;font-size:.9rem}
+    .btn-dark{background:#0b0b0b;color:#fff}
+    .btn-ghost{border:1px solid #e5e7eb}
+    .modal-open{overflow:hidden}
+    .icon-btn{width:40px;height:40px;border:1px solid rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;border-radius:9999px;background:#fff}
+    .badge{position:absolute;top:-6px;right:-6px;background:#c59b5b;color:#fff;font-size:.7rem;line-height:1;padding:2px 6px;border-radius:9999px}
+    .price-wrap del{opacity:.55}
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- PAGE CONTAINER -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+
+    <!-- HEADER -->
+    <header class="py-5 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <!-- Logo tile -->
+        <div class="w-15 h-15 rounded-xl bg-beige flex items-center justify-center shadow-card overflow-hidden">
+          <!-- Replace with your logo -->
+          <img src="assets/images/3X8A3128.JPG" alt="KALAH logo" class="w-10 h-10 object-contain"/>
+        </div>
+        <div>
+          <div class="text-2xl font-serif tracking-wide leading-none">KALAH</div>
+          <div class="text-[11px] uppercase tracking-[0.2em]" style="color:#a67c52">Woven Heritage</div>
+        </div>
+      </div>
+
+      <!-- Desktop nav -->
+      <nav class="hidden lg:flex items-center gap-4">
+        <!-- Search with icon -->
+        <div class="relative">
+          <input id="searchInput" placeholder="Search the collection" class="pl-10 pr-3 py-2 rounded-md border border-transparent shadow-sm text-sm bg-white/80 w-64 focus:outline-none focus:ring focus:ring-black/10"/>
+          <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 opacity-70" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path>
+          </svg>
+        </div>
+
+        <div class="relative group">
+          <button class="text-sm">Collections</button>
+          <div class="absolute left-0 mt-2 w-44 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition z-50">
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Sarees</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Best Sellers</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Latest Collections</a>
+          </div>
+        </div>
+
+        <div class="relative group">
+          <button class="text-sm">Lookbook</button>
+          <div class="absolute left-0 mt-2 w-44 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition z-50">
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Editorials</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Events</a>
+          </div>
+        </div>
+
+        <div class="relative group">
+          <button class="text-sm">About</button>
+          <div class="absolute left-0 mt-2 w-44 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition z-50">
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Our Story</a>
+            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Artisans</a>
+          </div>
+        </div>
+
+        <a href="mailto:kalahwovenheritage@gmail.com" class="text-sm">Support</a>
+        <button id="conciergeBtn" class="btn btn-ghost">Kalah Concierge</button>
+
+        <!-- Icons: wishlist, contact, cart -->
+        <div class="flex items-center gap-2 ml-2">
+          <!-- Wishlist -->
+          <button id="wishlistBtn" class="icon-btn relative" title="Wishlist">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M12 21s-7.25-4.53-9.5-8.5A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6.5C19.25 16.47 12 21 12 21Z"></path>
+            </svg>
+            <span id="wishlistCount" class="badge hidden">0</span>
+          </button>
+          <!-- Contact (WhatsApp) -->
+          <a href="https://wa.me/918590906821" target="_blank" class="icon-btn" title="Contact">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 3H4a1 1 0 0 0-1 1v16l4-4h13a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"></path>
+            </svg>
+          </a>
+          <!-- Cart -->
+          <div class="relative" id="cartRoot"></div>
+        </div>
+      </nav>
+
+      <!-- Mobile: wishlist + contact + cart + menu -->
+      <div class="lg:hidden flex items-center gap-2">
+        <button id="wishlistBtnMobile" class="icon-btn relative" title="Wishlist">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M12 21s-7.25-4.53-9.5-8.5A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6.5C19.25 16.47 12 21 12 21Z"></path>
+          </svg>
+          <span id="wishlistCountMobile" class="badge hidden">0</span>
+        </button>
+        <a href="https://wa.me/918590906821" target="_blank" class="icon-btn" title="Contact">
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 3H4a1 1 0 0 0-1 1v16l-4-4h13a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"></path>
+          </svg>
+        </a>
+        <div class="relative" id="cartRootMobile"></div>
+        <button id="mobileMenuBtn" class="px-3 py-2 rounded-md border">Menu</button>
+      </div>
+    </header>
+
+    <!-- MOBILE SHEET -->
+    <div id="mobileSheet" class="fixed inset-0 bg-black/50 opacity-0 pointer-events-none transition z-50">
+      <div class="absolute right-0 top-0 bottom-0 w-[82%] max-w-sm bg-white p-5 overflow-y-auto translate-x-full transition">
+        <div class="flex items-center justify-between">
+          <div class="text-lg font-serif">Menu</div>
+          <button id="mobileClose" class="text-xl">✕</button>
+        </div>
+        <div class="mt-4 relative">
+          <input placeholder="Search the collection" class="w-full pl-10 pr-3 py-2 rounded-md bg-beige"/>
+          <svg class="w-4 h-4 absolute left-3 top-[50%] -translate-y-1/2 opacity-70" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path>
+          </svg>
+        </div>
+        <ul class="mt-6 space-y-4">
+          <li>
+            <details>
+              <summary class="cursor-pointer">Collections</summary>
+              <ul class="ml-4 mt-2 space-y-2 text-sm">
+                <li><a href="#">Sarees</a></li>
+                <li><a href="#">Shawls</a></li>
+                <li><a href="#">Jackets</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary class="cursor-pointer">Lookbook</summary>
+              <ul class="ml-4 mt-2 space-y-2 text-sm">
+                <li><a href="#">Editorials</a></li>
+                <li><a href="#">Events</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details>
+              <summary class="cursor-pointer">About</summary>
+              <ul class="ml-4 mt-2 space-y-2 text-sm">
+                <li><a href="#">Our Story</a></li>
+                <li><a href="#">Artisans</a></li>
+              </ul>
+            </details>
+          </li>
+          <li><a href="https://wa.me/918590906821" target="_blank">Contact</a></li>
+          <li><a href="mailto:kalahwovenheritage@gmail.com">Support</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="mt-3 rounded-2xl bg-[#efe9e0]/40 p-3">
+      <div class="rounded-2xl overflow-hidden">
+        <div class="flex flex-col md:flex-row items-stretch gap-6">
+          <!-- Left text card -->
+          <div class="md:w-[55%]">
+            <div class="bg-white rounded-2xl p-8 shadow-card">
+              <div class="uppercase text-[11px] tracking-[0.25em] text-gray-500">New — Capsule</div>
+              <h2 class="mt-3 text-3xl md:text-[34px] leading-tight font-serif">
+                Woven Heritage — Contemporary Stories
+              </h2>
+              <p class="mt-3 text-[15px] leading-relaxed text-gray-700">
+                Discover handwoven garments that marry tradition with timeless modern design. Each silhouette is thoughtfully considered for longevity and cultural resonance.
+              </p>
+              <div class="mt-6 flex gap-3">
+                <button class="btn btn-ghost">Explore Collection</button>
+                <button class="btn btn-dark">Shop Now</button>
+              </div>
+              <div class="mt-6 flex items-center gap-4 text-xs text-gray-500">
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M5 21h14v-2H5v2Zm0-4h14l-1.34-8H6.34L5 17Zm3-12V3h8v2h4v2H4V5h4Z"/></svg>
+                  Premium Finish
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 2 7l10 5 10-5-10-5Zm0 7L2 4v13h2V7.236l8 4 8-4V17h2V4l-10 5Z"/></svg>
+                  Handwoven
+                </div>
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22s8-4 8-10A8 8 0 1 0 4 12c0 6 8 10 8 10Z"/></svg>
+                  Natural Dyes
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Right hero image -->
+          <div class="md:flex-1 rounded-2xl overflow-hidden shadow-card">
+            <!-- Replace with your hero image -->
+            <img src="assets/images/3X8A3128.JPG" alt="hero" class="w-full h-[260px] sm:h-[320px] md:h-[360px] lg:h-[380px] object-cover object-center"/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED COLLECTION: SAREES ONLY -->
+    <section class="mt-10">
+      <div class="flex items-end justify-between">
+        <div>
+          <h3 class="text-[26px] font-serif">Featured Sarees</h3>
+          <p class="text-sm text-gray-600 mt-1">Curated for this season — limited pieces</p>
+        </div>
+        <a href="#" class="text-sm underline">View all</a>
+      </div>
+
+      <!-- Grid -->
+      <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"></div>
+    </section>
+
+    <!-- MATERIAL STORIES -->
+    <section class="mt-12">
+      <div class="rounded-2xl bg-white shadow-card p-6 sm:p-8">
+        <h4 class="text-2xl font-serif">Material Stories</h4>
+        <p class="text-sm text-gray-600 mt-1">Short tales behind our favourite weaves.</p>
+        <div id="materialsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT KALAH PANEL -->
+    <section class="mt-12">
+      <div class="rounded-2xl bg-white shadow-card p-6 sm:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div>
+            <h4 class="text-2xl font-serif">About Kalah</h4>
+            <p class="mt-3 leading-relaxed">
+              KALAH is a celebration of woven heritage — thoughtfully crafted pieces that blend traditional techniques with modern silhouettes.
+              Each piece is curated and produced in small batches by artisans who carry generations of knowledge.
+            </p>
+            <ul class="mt-4 space-y-2 text-sm">
+              <li>• Handwoven craftsmanship</li>
+              <li>• Sustainable sourcing &amp; natural dyes</li>
+              <li>• Limited edition releases</li>
+            </ul>
+            <div class="mt-6 flex gap-3">
+              <button class="btn btn-ghost">Read Our Story</button>
+              <button class="btn btn-dark">Join the Kalah Circle</button>
+            </div>
+          </div>
+          <div class="rounded-2xl overflow-hidden shadow-card">
+            <!-- Replace with your editorial image -->
+            <img src="assets/images/3X8A2532.JPG" alt="editorial" class="w-full h-64 md:h-72 object-cover"/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-16 pt-10 pb-12 border-t text-sm text-gray-600">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <div class="font-serif text-lg">KALAH</div>
+          <p class="mt-2">Woven Heritage — curated, crafted, delivered with care.</p>
+        </div>
+        <div>
+          <div class="font-medium">Shop</div>
+          <ul class="mt-2 space-y-2">
+            <li><a href="#" class="hover:underline">Collections</a></li>
+            <li><a href="#" class="hover:underline">New arrivals</a></li>
+            <li><a href="#" class="hover:underline">Limited editions</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="font-medium">Support</div>
+          <ul class="mt-2 space-y-2">
+            <li><a href="#" class="hover:underline">Shipping &amp; returns</a></li>
+            <li><a href="https://wa.me/918590906821" class="hover:underline" target="_blank">Contact</a></li>
+            <li><a href="#" class="hover:underline">FAQ</a></li>
+          </ul>
+        </div>
+        <!-- QR Code block -->
+        <div>
+          <div class="font-medium">Scan for Stories &amp; Offers</div>
+          <div class="mt-3 p-3 bg-white rounded-xl shadow-card inline-block">
+            <!-- Simple SVG QR placeholder (replace with your image if desired) -->
+            <svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="QR Code">
+              <rect width="120" height="120" fill="#fff"/>
+              <rect x="8" y="8" width="32" height="32" fill="#000"/>
+              <rect x="16" y="16" width="16" height="16" fill="#fff"/>
+              <rect x="24" y="24" width="8" height="8" fill="#000"/>
+              <rect x="80" y="8" width="32" height="32" fill="#000"/>
+              <rect x="88" y="16" width="16" height="16" fill="#fff"/>
+              <rect x="96" y="24" width="8" height="8" fill="#000"/>
+              <rect x="8" y="80" width="32" height="32" fill="#000"/>
+              <rect x="16" y="88" width="16" height="16" fill="#fff"/>
+              <rect x="24" y="96" width="8" height="8" fill="#000"/>
+              <rect x="48" y="48" width="8" height="8" fill="#000"/>
+              <rect x="64" y="48" width="8" height="8" fill="#000"/>
+              <rect x="56" y="64" width="8" height="8" fill="#000"/>
+              <rect x="72" y="64" width="8" height="8" fill="#000"/>
+              <rect x="48" y="72" width="8" height="8" fill="#000"/>
+              <rect x="88" y="56" width="8" height="8" fill="#000"/>
+              <rect x="96" y="72" width="8" height="8" fill="#000"/>
+              <rect x="72" y="88" width="8" height="8" fill="#000"/>
+              <rect x="56" y="96" width="8" height="8" fill="#000"/>
+            </svg>
+          </div>
+          <div class="text-xs text-gray-500 mt-2">Point your camera to explore material stories and promotions.</div>
+        </div>
+      </div>
+      <div class="mt-8 text-xs text-gray-500">© <span id="yearSpan"></span> KALAH. All rights reserved.</div>
+    </footer>
+
+  </div><!-- /container -->
+
+  <!-- PRODUCT MODAL -->
+  <div id="productModal" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 opacity-0 pointer-events-none transition">
+    <div class="bg-white rounded-xl w-[95%] max-w-4xl overflow-hidden shadow-2xl">
+      <div class="md:flex">
+        <!-- Media -->
+        <div class="md:w-1/2 relative bg-gray-100 h-[60vh] md:h-[520px]">
+          <button id="prevMedia" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full px-2 py-1 text-xl">‹</button>
+          <div id="mediaWrapper" class="w-full h-full relative overflow-hidden touch-pan-y"></div>
+          <button id="nextMedia" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full px-2 py-1 text-xl">›</button>
+        </div>
+        <!-- Details -->
+        <div class="md:w-1/2 p-6 flex flex-col">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h3 id="modalTitle" class="text-2xl font-serif"></h3>
+              <div id="modalDesc" class="text-sm text-gray-500 mt-2"></div>
+            </div>
+            <button id="modalClose" class="text-xl text-gray-500">✕</button>
+          </div>
+          <div class="mt-6">
+            <div id="modalPrice" class="text-lg font-semibold"></div>
+            <p class="mt-4 text-sm leading-relaxed">Limited edition — handcrafted by artisans. Care: hand wash or dry clean only.</p>
+          </div>
+          <div class="mt-auto flex gap-3">
+            <button id="modalAdd" class="btn btn-dark">Add to cart</button>
+            <button id="modalClose2" class="btn btn-ghost">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DROPDOWN TEMPLATE -->
+  <template id="cartTemplate">
+    <div class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg p-4 z-50">
+      <h4 class="font-medium">Your Bag</h4>
+      <div class="mt-4 emptyText text-sm text-gray-500">Your bag is empty.</div>
+      <div class="mt-4 itemsList space-y-3"></div>
+      <div class="mt-4 border-t pt-3 subtotal hidden">
+        <div class="flex items-center justify-between">
+          <div class="text-sm text-gray-600">Subtotal</div>
+          <div class="font-medium subtotalAmount">₹0.00</div>
+        </div>
+        <div class="mt-3">
+          <button id="checkoutBtn" class="w-full px-4 py-2 rounded-md bg-kalahblack text-white">Checkout via WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- CHATBOT WIDGET -->
+  <div id="chatbotWidget" class="fixed bottom-4 right-4 z-[70]">
+    <!-- Toggle Button -->
+    <button id="chatbotToggle" class="bg-kalahblack text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2">
+      💬 <span class="hidden sm:inline">Kalah Concierge</span>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatbotWindow" class="hidden mt-3 w-80 sm:w-96 bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+      <div class="bg-kalahblack text-white p-3 flex items-center justify-between">
+        <div>
+          <div class="font-serif text-lg">Kalah Concierge</div>
+          <div class="text-xs text-gray-300">Professional Saree Stylist</div>
+        </div>
+        <button id="chatbotClose" class="text-white text-xl leading-none">✕</button>
+      </div>
+      <div id="chatbotMessages" class="flex-1 p-4 space-y-3 overflow-y-auto text-sm bg-ivory"></div>
+      <!-- Quick suggestion chips -->
+      <div id="chatbotChips" class="px-3 py-2 flex flex-wrap gap-2 bg-ivory border-t">
+        <button class="px-3 py-1 text-xs border rounded-full">Styling tips for weddings</button>
+        <button class="px-3 py-1 text-xs border rounded-full">How to store silk sarees?</button>
+        <button class="px-3 py-1 text-xs border rounded-full">Which fabric for summers?</button>
+      </div>
+      <div class="p-3 border-t bg-beige flex gap-2">
+        <input id="chatbotInput" type="text" placeholder="Ask about sarees, styling, care..." class="flex-1 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none text-sm"/>
+        <button id="chatbotSend" class="px-3 py-2 bg-kalahblack text-white rounded-lg">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA + JS -->
+  <script>
+    const YEAR = new Date().getFullYear();
+    document.getElementById('yearSpan').textContent = YEAR;
+
+    // INR formatter
+    const INR = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
+    const fmtINR = (n) => INR.format(n);
+
+    // ===========================
+    // PRODUCTS (SAREES ONLY)
+    // price = MRP; UI shows 10% OFF (sale = MRP * 0.9)
+    // ===========================
+    const PRODUCTS = [
+      {
+        id: 1,
+        title: 'SATHWAM — Set Saree',
+        price: 1899, // MRP in INR
+        desc: 'Handwoven cotton kerala saree with heritage motifs.',
+        material: 'Cotton',
+        materialStory: 'Centuries-old craft; airy handloom cotton finished with subtle zari for a poised drape.',
+        // Replace with your actual file path under /assets/images/
+        cover: 'assets/images/3X8A3128.JPG',
+        media: [
+          { type: 'img', src: 'assets/images/3X8A3128.JPG' },
+          { type: 'img', src: 'assets/images/3X8A3134.JPG' },
+          { type: 'img', src: 'assets/images/3X8A9321.JPG' },  /* optional filler */
+          { type: 'video', src: 'assets/videos/saree-video.mp4' } /* optional video */
+        ]
+      },
+      {
+        id: 2,
+        title: 'Kora Cotton — Sand',
+        price: 189, // MRP in INR
+        desc: 'Breathable handloom cotton with fine zari border.',
+        material: 'Kora (Handloom Cotton)',
+        materialStory: 'Undyed, airy cotton with a crisp hand — ideal for tropical climates and day events.',
+        cover: 'assets/images/3X8A3128.JPG',
+        media: [
+          { type: 'img', src: 'assets/images/3X8A3128.JPG' },
+          { type: 'img', src: 'assets/images/3X8A3128.JPG' },
+          { type: 'img', src: 'assets/images/3X8A3128.JPG' },
+          { type: 'video', src: 'assets/videos/saree-video.mp4' }
+        ]
+      },
+      {
+        id: 3,
+        title: 'Tussar Silk — Earth',
+        price: 219, // MRP in INR
+        desc: 'Raw silk texture with contemporary pallu.',
+        material: 'Tussar Silk',
+        materialStory: 'Wild silk with a distinctive slub; earthy sheen pairs beautifully with minimal blouses.',
+        cover: 'assets/images/3X8A3128.JPG',
+        media: [
+          { type: 'img', src: 'assets/images/3X8A3128.JPG' },
+          { type: 'img', src: 'assets/images/3X8A3128.JPG' },
+          { type: 'img', src: 'assets/images/3X8A3128.JPG' },
+          { type: 'video', src: 'assets/videos/saree-video.mp4' }
+        ]
+      }
+    ];
+    const getPrices = (p) => {
+      const mrp = Number(p.price);
+      const sale = Math.round(mrp * 0.9 * 100) / 100; // 10% OFF
+      return { mrp, sale };
+    };
+
+    // ===========================
+    // MATERIAL STORIES
+    // ===========================
+    function renderMaterials(){
+      const wrap = document.getElementById('materialsGrid');
+      wrap.innerHTML = '';
+      PRODUCTS.forEach(p=>{
+        const card = document.createElement('article');
+        card.className = 'border rounded-2xl p-4 bg-ivory';
+        card.innerHTML = `
+          <div class="flex items-start gap-3">
+            <img src="${p.cover}" alt="${p.title}" class="w-16 h-20 object-cover rounded-md"/>
+            <div class="flex-1">
+              <div class="text-sm uppercase tracking-widest text-earthy">${p.material}</div>
+              <h5 class="font-medium">${p.title}</h5>
+              <p class="text-sm text-gray-600 mt-1">${p.materialStory}</p>
+            </div>
+          </div>`;
+        wrap.appendChild(card);
+      });
+    }
+
+    // ===========================
+    // WISHLIST
+    // ===========================
+    let wishlist = [];
+    function updateWishlistBadges(){
+      const count = wishlist.length;
+      const el1 = document.getElementById('wishlistCount');
+      const el2 = document.getElementById('wishlistCountMobile');
+      [el1, el2].forEach(el=>{
+        if(!el) return;
+        if(count>0){ el.textContent = String(count); el.classList.remove('hidden'); }
+        else { el.classList.add('hidden'); }
+      });
+    }
+    function toggleWishlist(id){
+      const exists = wishlist.includes(id);
+      if(exists){ wishlist = wishlist.filter(x=>x!==id); }
+      else { wishlist.push(id); }
+      updateWishlistBadges();
+      document.querySelectorAll(`[data-wishlist="${id}"]`).forEach(btn=>{
+        btn.classList.toggle('text-gold', !exists);
+        btn.setAttribute('aria-pressed', String(!exists));
+      });
+    }
+    document.getElementById('wishlistBtn')?.addEventListener('click', ()=>alert('Open wishlist drawer (to be implemented).'));
+    document.getElementById('wishlistBtnMobile')?.addEventListener('click', ()=>alert('Open wishlist drawer (to be implemented).'));
+
+    // ===========================
+    // CART
+    // ===========================
+    let cart = [];
+    function renderCartDropdown(rootId){
+      const root = document.getElementById(rootId);
+      root.innerHTML = '';
+      const btn = document.createElement('button');
+      btn.className = 'icon-btn relative';
+      btn.title = 'Cart';
+      btn.innerHTML = `
+        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M6 6h15l-1.5 9h-12L6 6Z"></path><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle>
+        </svg>
+        <span class="badge ${cart.length? '' : 'hidden'}">${cart.length}</span>`;
+      root.appendChild(btn);
+
+      const template = document.getElementById('cartTemplate').content.cloneNode(true);
+      const dropdown = template.querySelector(':scope > div');
+      const emptyText = dropdown.querySelector('.emptyText');
+      const itemsList = dropdown.querySelector('.itemsList');
+      const subtotalBlock = dropdown.querySelector('.subtotal');
+      const subtotalAmount = dropdown.querySelector('.subtotalAmount');
+      const checkoutBtn = dropdown.querySelector('#checkoutBtn');
+
+      if(cart.length){
+        emptyText.style.display='none';
+        subtotalBlock.classList.remove('hidden');
+        let total = 0;
+        itemsList.innerHTML = '';
+        cart.forEach((p,idx)=>{
+          const { mrp, sale } = getPrices(p);
+          total += sale;
+          const row = document.createElement('div');
+          row.className='flex items-start justify-between gap-3';
+          row.innerHTML=`
+            <img src="${p.cover}" alt="${p.title}" class="w-14 h-16 object-cover rounded-md"/>
+            <div class="flex-1">
+              <div class="text-sm font-medium">${p.title}</div>
+              <div class="text-xs text-gray-500 price-wrap">
+                <del class="mr-1">${fmtINR(mrp)}</del>
+                <span class="font-medium">${fmtINR(sale)}</span>
+              </div>
+            </div>
+            <button data-idx="${idx}" class="removeBtn text-xs text-red-500">Remove</button>`;
+          itemsList.appendChild(row);
+        });
+        subtotalAmount.textContent = fmtINR(total);
+        itemsList.querySelectorAll('.removeBtn').forEach(b=>{
+          b.addEventListener('click', e=>{
+            cart.splice(Number(e.currentTarget.getAttribute('data-idx')),1);
+            renderCartDropdown(rootId);
+            renderCartDropdown(rootId === 'cartRoot' ? 'cartRootMobile' : 'cartRoot');
+          });
+        });
+        checkoutBtn.addEventListener('click', ()=>{
+          let msg='Hello, I would like to order:%0A';
+          cart.forEach(p=>{
+            const { mrp, sale } = getPrices(p);
+            msg += `${p.title} — MRP ${fmtINR(mrp)} | 10% Off ${fmtINR(sale)}%0A`;
+          });
+          window.open(`https://wa.me/918123456789?text=${msg}`,'_blank');
+        });
+      }
+
+      let open = false;
+      function close(){ dropdown.remove(); open=false; document.removeEventListener('click',onDoc); }
+      function onDoc(ev){ if(!root.contains(ev.target)) close(); }
+      btn.addEventListener('click', e=>{
+        e.stopPropagation();
+        if(open) return close();
+        root.appendChild(dropdown); open=true;
+        setTimeout(()=>document.addEventListener('click',onDoc),0);
+      });
+    }
+
+    // ===========================
+    // PRODUCTS GRID
+    // ===========================
+    function renderProducts(filter=''){
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '';
+      PRODUCTS
+        .filter(p => p.title.toLowerCase().includes(filter.toLowerCase()))
+        .forEach(p=>{
+          const { mrp, sale } = getPrices(p);
+          const card = document.createElement('article');
+          card.className = 'bg-white rounded-2xl overflow-hidden shadow-card';
+          card.innerHTML = `
+            <div class="aspect-[4/5] bg-gray-100 relative">
+              <img src="${p.cover}" alt="${p.title}" class="w-full h-full object-cover object-center"/>
+              <button data-wishlist="${p.id}" aria-pressed="false" title="Add to wishlist"
+                class="absolute top-3 right-3 p-2 bg-white/90 rounded-full hover:bg-white transition">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M12 21s-7.25-4.53-9.5-8.5A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6.5C19.25 16.47 12 21 12 21Z"></path>
+                </svg>
+              </button>
+            </div>
+            <div class="p-4">
+              <div class="flex items-start justify-between gap-4">
+                <div>
+                  <h4 class="font-medium">${p.title}</h4>
+                  <div class="text-sm text-gray-500">${p.desc}</div>
+                  <div class="mt-1 text-[11px] uppercase tracking-widest text-earthy">${p.material}</div>
+                </div>
+                <div class="text-right price-wrap">
+                  <div>
+                    <del class="block">${fmtINR(mrp)}</del>
+                    <div class="font-semibold">${fmtINR(sale)}</div>
+                  </div>
+                  <div class="text-[11px] text-gray-400">Inclusive of taxes</div>
+                </div>
+              </div>
+              <div class="mt-4 flex gap-3">
+                <button data-id="${p.id}" class="viewBtn btn btn-ghost">View</button>
+                <button data-id="${p.id}" class="addBtn btn btn-dark">Add to cart</button>
+              </div>
+            </div>`;
+          grid.appendChild(card);
+        });
+
+      // Bind view + add + wishlist
+      document.querySelectorAll('.viewBtn').forEach(b=>b.addEventListener('click',e=>{
+        const p = PRODUCTS.find(x=> x.id === Number(e.currentTarget.getAttribute('data-id')));
+        openModal(p);
+      }));
+      document.querySelectorAll('.addBtn').forEach(b=>b.addEventListener('click',e=>{
+        const p = PRODUCTS.find(x=> x.id === Number(e.currentTarget.getAttribute('data-id')));
+        cart.push(p);
+        renderCartDropdown('cartRoot');
+        renderCartDropdown('cartRootMobile');
+      }));
+      document.querySelectorAll('[data-wishlist]').forEach(b=>{
+        b.addEventListener('click', e=>{
+          const id = Number(e.currentTarget.getAttribute('data-wishlist'));
+          toggleWishlist(id);
+        });
+      });
+    }
+
+    // ===========================
+    // MODAL GALLERY (auto-slide + swipe)
+    // ===========================
+    const productModal = document.getElementById('productModal');
+    const mediaWrapper = document.getElementById('mediaWrapper');
+    const prevMedia = document.getElementById('prevMedia');
+    const nextMedia = document.getElementById('nextMedia');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalAdd = document.getElementById('modalAdd');
+    const modalClose = document.getElementById('modalClose');
+    const modalClose2 = document.getElementById('modalClose2');
+
+    let currentModalProduct = null, idx = 0, timer = null;
+
+    function renderMedia(){
+      mediaWrapper.innerHTML = '';
+      const m = currentModalProduct.media[idx];
+      if(m.type==='img'){
+        mediaWrapper.innerHTML = `<img src="${m.src}" class="w-full h-full object-cover object-center" alt="${currentModalProduct.title} media ${idx+1}">`;
+      }else{
+        mediaWrapper.innerHTML = `<video src="${m.src}" class="w-full h-full object-cover object-center" autoplay muted loop playsinline controls></video>`;
+      }
+    }
+    function startAuto(){ stopAuto(); timer = setInterval(()=> next(), 5000); }
+    function stopAuto(){ if(timer) clearInterval(timer); timer=null; }
+    function next(){ idx = (idx+1) % currentModalProduct.media.length; renderMedia(); }
+    function prev(){ idx = (idx-1+currentModalProduct.media.length) % currentModalProduct.media.length; renderMedia(); }
+
+    function openModal(p){
+      currentModalProduct = p; idx = 0;
+      const { mrp, sale } = getPrices(p);
+      modalTitle.textContent = p.title;
+      modalDesc.textContent = p.desc;
+      modalPrice.innerHTML = `
+        <div class="price-wrap">
+          <del class="mr-2">${fmtINR(mrp)}</del>
+          <span class="font-semibold">${fmtINR(sale)}</span>
+          <span class="ml-2 text-xs text-gold">10% OFF</span>
+        </div>`;
+      modalAdd.onclick = ()=>{ cart.push(p); renderCartDropdown('cartRoot'); renderCartDropdown('cartRootMobile'); };
+      renderMedia();
+      productModal.classList.remove('opacity-0','pointer-events-none');
+      document.body.classList.add('modal-open');
+      startAuto();
+    }
+    function closeModal(){
+      stopAuto();
+      document.querySelectorAll('#mediaWrapper video').forEach(v=> v.pause());
+      productModal.classList.add('opacity-0','pointer-events-none');
+      document.body.classList.remove('modal-open');
+    }
+
+    prevMedia.addEventListener('click', ()=>{ prev(); startAuto(); });
+    nextMedia.addEventListener('click', ()=>{ next(); startAuto(); });
+    modalClose.addEventListener('click', closeModal);
+    modalClose2.addEventListener('click', closeModal);
+    document.addEventListener('keydown', e=>{
+      if(productModal.classList.contains('pointer-events-none')) return;
+      if(e.key==='Escape') closeModal();
+      if(e.key==='ArrowRight') { next(); startAuto(); }
+      if(e.key==='ArrowLeft')  { prev(); startAuto(); }
+    });
+
+    // Swipe gestures
+    let touchStartX=0, touchEndX=0;
+    mediaWrapper.addEventListener('touchstart', e=> touchStartX = e.changedTouches[0].screenX, {passive:true});
+    mediaWrapper.addEventListener('touchend', e=>{
+      touchEndX = e.changedTouches[0].screenX;
+      if(Math.abs(touchEndX - touchStartX) > 40){
+        if(touchEndX < touchStartX) next(); else prev();
+        startAuto();
+      }
+    }, {passive:true});
+
+    // ===========================
+    // MOBILE SHEET
+    // ===========================
+    const mobileSheet = document.getElementById('mobileSheet');
+    const mobilePanel = mobileSheet.children[0];
+    document.getElementById('mobileMenuBtn').addEventListener('click', ()=>{
+      mobileSheet.classList.remove('pointer-events-none');
+      mobileSheet.classList.remove('opacity-0');
+      mobilePanel.classList.remove('translate-x-full');
+    });
+    document.getElementById('mobileClose').addEventListener('click', ()=>{
+      mobileSheet.classList.add('opacity-0');
+      mobilePanel.classList.add('translate-x-full');
+      setTimeout(()=> mobileSheet.classList.add('pointer-events-none'), 250);
+    });
+    mobileSheet.addEventListener('click', e=>{
+      if(e.target===mobileSheet) document.getElementById('mobileClose').click();
+    });
+
+    // ===========================
+    // SEARCH
+    // ===========================
+    const searchInput = document.getElementById('searchInput');
+    if(searchInput){
+      searchInput.addEventListener('input', e => renderProducts(e.target.value));
+    }
+
+    // Concierge shortcut
+    document.getElementById('conciergeBtn')?.addEventListener('click', ()=>{
+      document.getElementById('chatbotWindow').classList.remove('hidden');
+    });
+
+    // ===========================
+    // CHATBOT (rule-based, pro tone)
+    // ===========================
+    const chatbotToggle = document.getElementById('chatbotToggle');
+    const chatbotWindow = document.getElementById('chatbotWindow');
+    const chatbotClose = document.getElementById('chatbotClose');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotSend = document.getElementById('chatbotSend');
+    const chatbotChips = document.getElementById('chatbotChips');
+
+    function addMessage(text, from="bot") {
+      const msg = document.createElement('div');
+      msg.className = from === "bot"
+        ? "bg-white text-kalahblack p-2 rounded-lg shadow-sm"
+        : "bg-gold text-white p-2 rounded-lg ml-auto shadow-sm";
+      msg.textContent = text;
+      chatbotMessages.appendChild(msg);
+      chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+    function formatReply(msg){
+      const s = msg.toLowerCase();
+      if(s.includes('wedding') || s.includes('occasion') || s.includes('style')){
+        return "Wedding styling: Banarasi or Kanjeevaram with temple jewelry; structured blouses. Day functions: Kora cotton, minimal gold studs, sleek bun. Want drape tips too?";
+      }
+      if(s.includes('summer') || s.includes('heat') || s.includes('hot')){
+        return "For summers, choose Kora cotton or linen blends — breathable, crisp, lightweight. Pair with sleeveless or boat-neck blouses for airflow.";
+      }
+      if(s.includes('fabric') || s.includes('material')){
+        return "Our cores: Banarasi silk (opulent, heirloom), Tussar silk (earthy sheen), Kora cotton (airy, crisp). Tell me your occasion & climate for a precise pick.";
+      }
+      if(s.includes('care') || s.includes('wash') || s.includes('store')){
+        return "Care: Air after wear. Spot-clean gently. Dry clean silks; hand wash cottons cold. Store in muslin; avoid plastic. Refold silks every 3 months.";
+      }
+      if(s.includes('trend') || s.includes('fashion')){
+        return "Modern classic: earthy palettes with zari accents, minimal blouses, and statement earrings. Understated glam that photographs beautifully.";
+      }
+      if(s.includes('size') || s.includes('length') || s.includes('fit')){
+        return "Most sarees are ~5.5m with a 0.8m blouse piece if attached. Drape adjusts to height; we can guide blouse sizing too. Prefer a tailored or relaxed fit?";
+      }
+      return "I’m here for fabric guidance, occasion styling, drape hacks, and care. What are you shopping for today?";
+    }
+    function sendUser(text){
+      addMessage(text, "user");
+      setTimeout(()=> addMessage(formatReply(text)), 400);
+    }
+    function handleSend(){
+      const text = chatbotInput.value.trim();
+      if(!text) return;
+      chatbotInput.value = "";
+      sendUser(text);
+    }
+    chatbotToggle.addEventListener('click', ()=> chatbotWindow.classList.toggle('hidden'));
+    chatbotClose.addEventListener('click', ()=> chatbotWindow.classList.add('hidden'));
+    chatbotSend.addEventListener('click', handleSend);
+    chatbotInput.addEventListener('keypress', e => { if(e.key==="Enter") handleSend(); });
+    chatbotChips.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=> sendUser(b.textContent)));
+
+    // Initial greeting + auto-open once
+    addMessage("Namaste! I’m your Kalah Concierge. Ask me about fabrics, styling for occasions, drape tips, or care.");
+    window.addEventListener("load", () => {
+      if(!localStorage.getItem("kalah_chat_opened_once")){
+        setTimeout(() => chatbotWindow.classList.remove("hidden"), 1200);
+        localStorage.setItem("kalah_chat_opened_once","1");
+      }
+    });
+
+    // ===========================
+    // INIT
+    // ===========================
+    renderMaterials();
+    renderProducts();
+    renderCartDropdown('cartRoot');
+    renderCartDropdown('cartRootMobile');
+    updateWishlistBadges();
+  </script>
+</body>
+</html>
